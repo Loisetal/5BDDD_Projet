@@ -1,6 +1,6 @@
 
 from fastapi import FastAPI, HTTPException
-from app.routers import book, loan
+from app.routers import book, loan, auth, user
 
 app = FastAPI(
     title="API Gestion Bibliothèque",
@@ -10,6 +10,8 @@ app = FastAPI(
 
 app.include_router(book.router)
 app.include_router(loan.router)
+app.include_router(auth.router)
+app.include_router(user.router)
 
 @app.get("/", summary="API Root")
 async def root():

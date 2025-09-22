@@ -19,16 +19,4 @@ Mettre en place d'un environnement virtuel et l'activer
 
 ## Docker
 
-A la racine de projet, lancer la commande :
-```bash
-docker compose up -d
-```
-
-## Appliquer les migrations Alembic
-```bash
-alembic upgrade head
-```
-Cette commande crée toutes les tables nécessaires dans la base PostgreSQL.
-
-## Alimenter la base de données
-Exécuter les requêtes du fichier Insert.sql via DBeaver pour insérer les données initiales.
+A la racine de projet, lancer la commande "docker compose up -d"
