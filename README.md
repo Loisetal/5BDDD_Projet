@@ -20,3 +20,5 @@ Mettre en place d'un environnement virtuel et l'activer
 ## Docker
 
 A la racine de projet, lancer la commande "docker compose up -d"
+
+alembic upgrade head
