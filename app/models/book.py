@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, Boolean, TIMESTAMP, func, Index
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.database import Base
+from app.models.loan import Loan
 
 class Book(Base):
     __tablename__ = "books"
@@ -15,6 +16,8 @@ class Book(Base):
     updated_at: Mapped[TIMESTAMP] = mapped_column(
         TIMESTAMP, server_default=func.now(), onupdate=func.now()
     )
+
+    loans: Mapped[list["Loan"]] = relationship("Loan", back_populates="book")
 
     __table_args__ = (
         Index("ix_books_title", "title"),
