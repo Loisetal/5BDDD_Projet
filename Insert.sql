@@ -15,7 +15,7 @@ VALUES
 
 INSERT INTO loans (user_id, book_id, loan_date, return_date, status)
 VALUES
-(1, 1, '2025-09-01 10:00:00', '2025-09-10 15:00:00', FALSE),  -- Alice a rendu 1984
-(2, 2, '2025-09-15 09:30:00', NULL, TRUE),                     -- Bob a emprunté Le Petit Prince
-(3, 3, '2025-09-18 14:00:00', NULL, TRUE),                     -- Charlie a emprunté Harry Potter
-(4, 4, '2025-09-10 11:45:00', '2025-09-20 16:30:00', FALSE);  -- Diane a rendu Les Misérables
+(1, 1, '2025-09-01 10:00:00', '2025-09-10 15:00:00', FALSE),  
+(2, 2, '2025-09-15 09:30:00', NULL, TRUE),                     
+(3, 3, '2025-09-18 14:00:00', NULL, TRUE),                     
+(4, 4, '2025-09-10 11:45:00', '2025-09-20 16:30:00', FALSE);  
