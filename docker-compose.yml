@@ -24,7 +24,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgresql+psycopg2://admin_biblio:motdepasse@db/bibliotheque
+      DATABASE_URL: postgresql+psycopg2://library:SUPINFO2025@db/library
     volumes:
       - .:/app
 
