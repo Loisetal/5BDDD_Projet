@@ -6,7 +6,7 @@ from app.models.loan import Loan
 from app.schemas.user import UserOut, UserUpdate
 from app.schemas.loan import LoanOut
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/users", tags=["Utilisateurs"])
 
 @router.get("/me", response_model=UserOut)
 def read_me(current=Depends(get_current_user)):

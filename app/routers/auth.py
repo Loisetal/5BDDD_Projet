@@ -6,7 +6,7 @@ from app.models.user import User
 from app.schemas.user import UserCreate, UserOut
 from app.schemas.auth import LoginIn, Token
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["Authentification"])
 
 @router.post("/enregistrement", response_model=UserOut, status_code=201)
 def register(payload: UserCreate, db: Session = Depends(get_db)):
