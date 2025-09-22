@@ -1,13 +1,20 @@
-from sqlalchemy import Column, Integer, String, TIMESTAMP, func
-from app.core.database import Base
+from sqlalchemy import String, TIMESTAMP, Integer, func, Index
+from sqlalchemy.orm import Mapped, mapped_column
+from app.db.database import Base
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    email = Column(String, nullable=False, unique=True, index=True)
-    phone = Column(String, nullable=True)
-    password = Column(String, nullable=False)
-    created_at = Column(TIMESTAMP, server_default=func.now())
-    updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, nullable=False, unique=True, index=True)
+    phone: Mapped[str | None] = mapped_column(String, nullable=True)
+    password: Mapped[str] = mapped_column(String, nullable=False)
+    created_at: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP, server_default=func.now())
+    updated_at: Mapped[TIMESTAMP] = mapped_column(
+        TIMESTAMP, server_default=func.now(), onupdate=func.now()
+    )
+
+    __table_args__ = (
+        Index("ix_users_email", "email"),
+    )
