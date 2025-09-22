@@ -43,7 +43,7 @@ def create_book(book: schemas.BookCreate, db: Session = Depends(get_db)):
 @router.get(
     "/{book_id}",
     response_model=schemas.BookOut,
-    summary="Obtenir un livre avec son Id",
+    summary="Rechercher un livre avec son Id",
     description="Retourne les informations détaillées d’un livre à partir de son identifiant unique."
 )
 def read_book(book_id: int, db: Session = Depends(get_db)):
