@@ -4,7 +4,7 @@ from app.core.database import Base
 from app.models.loan import Loan
 
 class Book(Base):
-    __tablename__ = "books"
+    __tablename__ = "book"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     title: Mapped[str] = mapped_column(String, nullable=False, index=True)
@@ -17,10 +17,10 @@ class Book(Base):
         TIMESTAMP, server_default=func.now(), onupdate=func.now()
     )
 
-    loans: Mapped[list["Loan"]] = relationship("Loan", back_populates="book")
+    loan: Mapped[list["Loan"]] = relationship("Loan", back_populates="book")
 
     __table_args__ = (
-        Index("ix_books_title", "title"),
-        Index("ix_books_author", "author"),
-        Index("ix_books_genre", "genre"),
+        Index("ix_book_title", "title"),
+        Index("ix_book_author", "author"),
+        Index("ix_book_genre", "genre"),
     )

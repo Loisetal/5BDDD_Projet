@@ -4,7 +4,7 @@ from app.core.database import Base
 from app.models.loan import Loan
 
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
@@ -16,8 +16,8 @@ class User(Base):
         TIMESTAMP, server_default=func.now(), onupdate=func.now()
     )
 
-    loans: Mapped[list["Loan"]] = relationship("Loan", back_populates="user")
+    loan: Mapped[list["Loan"]] = relationship("Loan", back_populates="user")
 
     __table_args__ = (
-        Index("ix_users_email", "email"),
+        Index("ix_user_email", "email"),
     )

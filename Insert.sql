@@ -1,11 +1,11 @@
-INSERT INTO users (name, email, phone, password)
+INSERT INTO user (name, email, phone, password)
 VALUES 
 ('Alice Dupont', 'alice.dupont@example.com', '0601020304', 'password1'),
 ('Bob Martin', 'bob.martin@example.com', '0605060708', 'password2'),
 ('Charlie Durand', 'charlie.durand@example.com', NULL, 'password3'),
 ('Diane Leroy', 'diane.leroy@example.com', '0611121314', 'password4');
 
-INSERT INTO books (title, author, genre, publication_date)
+INSERT INTO book (title, author, genre, publication_date)
 VALUES 
 ('1984', 'George Orwell', 'Dystopie', '1949-06-08'),
 ('Le Petit Prince', 'Antoine de Saint-Exupéry', 'Conte', '1943-04-06'),
@@ -13,7 +13,7 @@ VALUES
 ('Les Misérables', 'Victor Hugo', 'Classique', '1862-01-01'),
 ('L''Étranger', 'Albert Camus', 'Philosophie', '1942-05-19');
 
-INSERT INTO loans (user_id, book_id, loan_date, return_date, status)
+INSERT INTO loan (user_id, book_id, loan_date, return_date, status)
 VALUES
 (1, 1, '2025-09-01 10:00:00', '2025-09-10 15:00:00', FALSE),  -- Alice a rendu 1984
 (2, 2, '2025-09-15 09:30:00', NULL, TRUE),                     -- Bob a emprunté Le Petit Prince

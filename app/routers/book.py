@@ -4,7 +4,7 @@ from typing import List
 from app.core import database
 from app import models, schemas
 
-router = APIRouter(prefix="/books", tags=["Books"], responses={404: {"description": "Livre non trouvé"}})
+router = APIRouter(prefix="/book", tags=["Book"], responses={404: {"description": "Livre non trouvé"}})
 
 def get_db():
     db = database.SessionLocal()
