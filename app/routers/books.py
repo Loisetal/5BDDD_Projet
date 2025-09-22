@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import date
-from app.db import database
+from app.core import database
 from app import models, schemas
 
 router = APIRouter(prefix="/books", tags=["Books"])
