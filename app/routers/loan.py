@@ -15,7 +15,6 @@ def get_db():
     finally:
         db.close()
 
-
 # Lister tous les emprunts
 @router.get(
     "/",
@@ -25,7 +24,6 @@ def get_db():
 )
 def read_loans(db: Session = Depends(get_db)):
     return db.query(models.Loan).all()
-
 
 # Créer un emprunt
 @router.post(
@@ -59,7 +57,6 @@ def create_loan(loan: schemas.LoanCreate, db: Session = Depends(get_db)):
     db.refresh(db_loan)
     return db_loan
 
-
 # Récupérer un emprunt par ID
 @router.get(
     "/{loan_id}",
@@ -72,7 +69,6 @@ def read_loan(loan_id: int, db: Session = Depends(get_db)):
     if not loan:
         raise HTTPException(status_code=404, detail="Loan not found")
     return loan
-
 
 # Retourner un livre (clôturer un emprunt)
 @router.put(

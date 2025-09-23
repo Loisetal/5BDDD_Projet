@@ -8,7 +8,9 @@ from app.schemas.auth import LoginIn, Token
 
 router = APIRouter(prefix="/auth", tags=["Authentification"])
 
-@router.post("/enregistrement", response_model=UserOut, status_code=201)
+@router.post("/enregistrement", response_model=UserOut, status_code=201,
+             summary="Créer un nouvel utilisateur",
+             description="Enregistre un nouvel utilisateur avec un nom, email, mot de passe et téléphone. L'email doit être unique.")
 def register(payload: UserCreate, db: Session = Depends(get_db)):
     if db.query(User).filter(User.email == payload.email).first():
         raise HTTPException(status_code=400, detail="Email déjà utilisé")
@@ -23,7 +25,9 @@ def register(payload: UserCreate, db: Session = Depends(get_db)):
     db.refresh(user)
     return user
 
-@router.post("/connexion", response_model=Token)
+@router.post("/connexion", response_model=Token,
+             summary="Connexion utilisateur",
+             description="Authentifie un utilisateur et retourne un token JWT pour les requêtes sécurisées.")
 def login(payload: LoginIn, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == payload.email).first()
     if not user or not verify_password(payload.password, user.password):

@@ -62,7 +62,9 @@ def user_loans(user_id: int, db: Session = Depends(get_db), current=Depends(get_
     return loans
 
 
-@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT,
+                summary="Supprimer un utilisateur",
+                description="Supprime un utilisateur et tous ses emprunts associés. Seul l'utilisateur courant peut supprimer son compte.")
 def delete_user(
     user_id: int,
     db: Session = Depends(get_db),
