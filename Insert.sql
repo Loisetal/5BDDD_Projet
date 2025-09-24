@@ -2,11 +2,11 @@ TRUNCATE TABLE "loan", "user", "book" RESTART IDENTITY CASCADE;
 
 INSERT INTO "user" (name, email, phone, password, role)
 VALUES 
-('Alice Dupont', 'alice.dupont@example.com', '0601020304', '$2b$12$xoOTQ3JrOTRG7RZ786fb1OfM0PEi6/AO4NSBZ919tV5pP1zZKhox.', 'user'),
-('Bob Martin', 'bob.martin@example.com', '0605060708', '$2b$12$ebtkMnt3isuH5lJQolxLwuc8GQ78SI8bLSxhUPqJxartGSKWH6WR2', 'user'),
-('Charlie Durand', 'charlie.durand@example.com', NULL, '$2b$12$4t6YGybq7Z1vJb0QTHc8OOt0kFwn54HZuzZHjcA.AF089/rUd5xdW', 'user'),
-('Diane Leroy', 'diane.leroy@example.com', '0611121314', '$2b$12$aox4qAxc5iMPVd/nNHHXquiXwosc92QIbhxl14u3Dygz6CDVCBjca', 'user'),
-('Admin', 'admin@example.com', '0612456310', '$2b$12$7MScXRhnZA/lYbmPwnXNaOLtXcIkqVYutqA2xkYBjFCl8jCRFRXXy', 'admin');
+('Alice Dupont', 'alice.dupont@example.com', '0601020304', '$2b$12$xoOTQ3JrOTRG7RZ786fb1OfM0PEi6/AO4NSBZ919tV5pP1zZKhox.', 'user'), -- password: password1
+('Bob Martin', 'bob.martin@example.com', '0605060708', '$2b$12$ebtkMnt3isuH5lJQolxLwuc8GQ78SI8bLSxhUPqJxartGSKWH6WR2', 'user'), -- password: password2
+('Charlie Durand', 'charlie.durand@example.com', NULL, '$2b$12$4t6YGybq7Z1vJb0QTHc8OOt0kFwn54HZuzZHjcA.AF089/rUd5xdW', 'user'), -- password: password3
+('Diane Leroy', 'diane.leroy@example.com', '0611121314', '$2b$12$aox4qAxc5iMPVd/nNHHXquiXwosc92QIbhxl14u3Dygz6CDVCBjca', 'user'), -- password: password4
+('Admin', 'admin@example.com', '0612456310', '$2b$12$7MScXRhnZA/lYbmPwnXNaOLtXcIkqVYutqA2xkYBjFCl8jCRFRXXy', 'admin'); -- password: admin
 
 INSERT INTO book (id, title, author, genre, publication_date)
 VALUES 
