@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime
+from app.models.user import User
+from app.core.deps import require_role
 
 from app.core import database
 from app import models, schemas
@@ -31,9 +33,15 @@ def read_loans(db: Session = Depends(get_db)):
     response_model=schemas.LoanOut,
     status_code=status.HTTP_201_CREATED,
     summary="Créer un nouvel emprunt",
-    description="Associe un utilisateur et un livre à un emprunt. Le livre devient ensuite indisponible."
+    description="Associe un utilisateur et un livre à un emprunt. Le livre devient ensuite indisponible.",
 )
-def create_loan(loan: schemas.LoanCreate, db: Session = Depends(get_db)):
+def create_loan(loan: schemas.LoanCreate, db: Session = Depends(get_db), current_user: User = Depends(require_role(["user", "admin"]))):
+    if current_user.role != "admin" and current_user.id != loan.user_id:
+        raise HTTPException(
+            status_code=403,
+            detail="Vous ne pouvez créer un emprunt que pour vous-même"
+        )
+    
     book = db.query(models.Book).filter(models.Book.id == loan.book_id).first()
     if not book:
         raise HTTPException(status_code=404, detail="Book not found")
@@ -64,10 +72,13 @@ def create_loan(loan: schemas.LoanCreate, db: Session = Depends(get_db)):
     summary="Récupérer un emprunt",
     description="Retourne les détails d’un emprunt spécifique."
 )
-def read_loan(loan_id: int, db: Session = Depends(get_db)):
+def read_loan(loan_id: int, db: Session = Depends(get_db),  current_user: User = Depends(require_role(["user", "admin"]))):
     loan = db.query(models.Loan).filter(models.Loan.id == loan_id).first()
     if not loan:
         raise HTTPException(status_code=404, detail="Loan not found")
+    
+    if current_user.role != "admin" and loan.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Accès refusé à cet emprunt")
     return loan
 
 # Retourner un livre (clôturer un emprunt)
@@ -96,3 +107,4 @@ def return_book(loan_id: int, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(loan)
     return loan
+    

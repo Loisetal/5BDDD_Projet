@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.core.deps import get_db, get_current_user
+from app.core.deps import get_db, get_current_user, require_role
 from app.models.user import User
 from app.models.loan import Loan
 from app.schemas.user import UserOut, UserUpdate
@@ -11,10 +11,7 @@ router = APIRouter(prefix="/user", tags=["Utilisateur"], responses={401: {"descr
 @router.get("/{user_id}", response_model=UserOut,
             summary="Obtenir les informations d'un utilisateur",
             description="Retourne les informations de l'utilisateur dont l'ID est fourni.")
-def read_user(user_id: int, db: Session = Depends(get_db), current=Depends(get_current_user)):
-    if current.id != user_id:
-        raise HTTPException(status_code=403, detail="Vous n'êtes pas autorisé à voir ces informations")
-
+def read_user(user_id: int, db: Session = Depends(get_db), current=Depends(get_current_user), current_user: User = Depends(require_role(["admin"]))):
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
@@ -28,10 +25,7 @@ def read_user(user_id: int, db: Session = Depends(get_db), current=Depends(get_c
                   "Les champs non fournis ne seront pas modifiés."
               ),
               response_description="Retourne les informations de l'utilisateur après mise à jour.")
-def update_user(user_id: int, data: UserUpdate, db: Session = Depends(get_db), current=Depends(get_current_user)):
-    if current.id != user_id:
-        raise HTTPException(status_code=403, detail="Vous n'êtes pas autorisé à modifier ces informations")
-
+def update_user(user_id: int, data: UserUpdate, db: Session = Depends(get_db), current=Depends(get_current_user), current_user: User = Depends(require_role(["admin"]))):
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
@@ -55,7 +49,7 @@ def update_user(user_id: int, data: UserUpdate, db: Session = Depends(get_db), c
             ),
             response_description="Liste des emprunts effectués par l'utilisateur.")
 def user_loans(user_id: int, db: Session = Depends(get_db), current=Depends(get_current_user)):
-    if current.id != user_id:
+    if current.id != user_id and current.role != "admin":
         raise HTTPException(status_code=403, detail="Vous n'êtes pas autorisé à voir ces informations")
 
     loans = db.query(Loan).filter(Loan.user_id == user_id).order_by(Loan.loan_date.desc()).all()
@@ -68,14 +62,14 @@ def user_loans(user_id: int, db: Session = Depends(get_db), current=Depends(get_
 def delete_user(
     user_id: int,
     db: Session = Depends(get_db),
-    current=Depends(get_current_user)
+    current=Depends(get_current_user),
+    current_user: User = Depends(require_role(["admin"]))
 ):
-    if current.id != user_id:
-        raise HTTPException(status_code=403, detail="Vous n'êtes pas autorisé à supprimer cet utilisateur")
-
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+
+    db.query(Loan).filter(Loan.user_id == user_id).delete(synchronize_session=False)
 
     db.delete(user)
     db.commit()
