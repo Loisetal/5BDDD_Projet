@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+from app.models.user import RoleEnum
 
 class UserBase(BaseModel):
     name: str
@@ -8,6 +9,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+    role: RoleEnum = RoleEnum.user
 
 class UserUpdate(BaseModel):
     name: str | None = None
@@ -15,6 +17,7 @@ class UserUpdate(BaseModel):
 
 class UserOut(UserBase):
     id: int
+    role: RoleEnum 
     created_at: datetime
     updated_at: datetime
     class Config:

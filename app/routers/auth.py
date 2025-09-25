@@ -19,6 +19,7 @@ def register(payload: UserCreate, db: Session = Depends(get_db)):
         email=payload.email,
         phone=payload.phone,
         password=hash_password(payload.password),
+        role=payload.role
     )
     db.add(user)
     db.commit()
@@ -32,5 +33,5 @@ def login(payload: LoginIn, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == payload.email).first()
     if not user or not verify_password(payload.password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Identifiants invalides")
-    token = create_access_token({"sub": str(user.id)})
+    token = create_access_token({"sub": str(user.id), "role": user.role})
     return Token(access_token=token)
