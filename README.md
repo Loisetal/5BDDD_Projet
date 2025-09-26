@@ -15,6 +15,19 @@ la validation des données.
 
 # Démarrage 
 
+Créer un environnement virtuel et l'activer
+```bash
+python -m venv venv
+```
+
+A la racine du projet, installer les libraires
+
+
+Créer un environnement virtuel 
+```bash
+pip install -r requirements.txt
+```
+
 ## Docker
 A la racine de projet, lancer la commande :
 ```bash
